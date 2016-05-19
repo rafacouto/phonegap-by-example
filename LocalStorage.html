@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Axenda</title>
+<script type="text/javascript">
+
+var contacts;
+var lastId;
+
+function loadContacts()
+{
+  if (!supportsLocalStorage()) return false;
+
+  var data = JSON.parse(localStorage.getItem('treboada.contactData'));
+  var last_id = Number.parseInt(localStorage.getItem('treboada.contactLastId'));
+
+  contacts = (Array.isArray(data) ? data : []);
+  lastId = (Number.isNaN(last_id) ? 0 : last_id);
+}
+
+function newContact()
+{
+  var frm = document.getElementById('frmContact');
+  var contact = new FormData(frm);
+  console.log(contact.get('email'));
+}
+
+function saveContact()
+{
+  lastId++;
+  contact.id = lastId;
+  contacts.push(contact);
+
+  localStorage['treboada.contactLastId'] = lastId;
+  localStorage['treboada.contactData'] = JSON.stringify(data);
+}
+
+</script>
+</head>
+<body>
+
+<form id="frmContact">
+
+  <p><label for="id">Id</label><input name="id" readonly="readonly" value=""><br/></p>
+  <p><label for="first_name">Nome</label><input type="text" name="first_name" value=""></p>
+  <p><label for="last_name">Apelido</label><input type="text" name="last_name" value=""></p>
+  <p><label for="email">E-mail</label><input type="email" name="email" value=""></p>
+
+  <button type="button" onclick="newContact()">Novo</button>
+  <button type="button" onclick="newContact()">Gardar</button>
+
+</form>
+
+<ul id="lstContactos">
+</ul>
+
+</body>
+</html>
